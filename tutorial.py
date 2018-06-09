@@ -54,7 +54,7 @@ pretrain_dict={k:v for k,v in pretrain_dict.items() if k in new_params and v.siz
 new_params.update(pretrain_dict)
 cnn.load_state_dict(new_params)
 
-cnn.train()
+cnn.train()# if you want test ; just modify to cnn.eval()
 # set different layer's learning rate: [conv1 conv2] lr*10 ; [out]  lr
 def get_10x_lr_params(net):
     b=[net.conv1,net.conv2]
