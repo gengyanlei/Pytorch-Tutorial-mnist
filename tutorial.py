@@ -1,7 +1,7 @@
 '''
 author : leilei
-A whole Pytorch tutorial : set different layer's lr and update lr (One to one correspondence)
-                           output middle layer's feature
+A whole Pytorch tutorial : set different layer's lr , update lr (One to one correspondence)
+                           output middle layer's feature and fine-tune
 '''
 import torch
 import torchvision
