@@ -34,7 +34,21 @@ class CNN(nn.Module):
                 nn.ReLU(),
                 nn.MaxPool2d(kernel_size=2,stride=2))
         self.conv2=nn.Sequential(nn.Conv2d(16,32,4,1,2),nn.ReLU(),nn.MaxPool2d(2,2))
-        self.out=nn.Linear(32*7*7,10) 
+        self.out=nn.Linear(32*7*7,10)
+        
+        # init
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.kaiming_normal_(m.weight, mode='fan_out', nonlinearity='relu')
+                if m.bias is not None:
+                    nn.init.constant_(m.bias, 0)
+            elif isinstance(m, nn.BatchNorm2d):
+                nn.init.constant_(m.weight, 1)
+                nn.init.constant_(m.bias, 0)
+            elif isinstance(m, nn.Linear):
+                nn.init.normal_(m.weight, 0, 0.01)
+                nn.init.constant_(m.bias, 0)
+        
     def forward(self,x):
         per_out=[]
         x=self.conv1(x)
@@ -45,6 +59,7 @@ class CNN(nn.Module):
         output=self.out(x)
         # can output middle layer's features
         return output,per_out
+
 cnn=CNN().cuda()# gpu
 
 # fine-tune
