@@ -78,7 +78,17 @@ def get_10x_lr_params(net):
             for k in j.parameters():
                 yield k
                 # generator
-                
+
+# set weight bias different lr; bias_lr = 2 * weight_lr
+def get_weight_params(net):
+    for i in net.modules(): # if error just add some 'for' 
+        if isinstance(i,nn.Conv2d):
+            yield i.weight
+        if isinstance(i,nn.BatchNorm2d):
+            yield i.weight
+        if isinstance(i,nn.Linear):
+            yield i.weight
+
 # update lr
 def lr_poly(base_lr,iters,max_iter,power):
     return base_lr*((1-float(iters)/max_iter)**power)
